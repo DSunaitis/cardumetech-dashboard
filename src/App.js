@@ -23,12 +23,12 @@ export default function App() {
 
       <div style={{ display: "flex", gap: 20, marginBottom: 30 }}>
         
-        <div style={{ backgroundColor: "hsl(299, 87%, 47%)", color: "red", padding: 20, borderRadius: 10 }}>
+        <div style={{ backgroundColor: "hsl(300, 63%, 8%)", color: "white", padding: 20, borderRadius: 10 }}>
           <h3>Satisfaction</h3>
           <h2>{avgSatisfaction}%</h2>
         </div>
 
-        <div style={{ backgroundColor: "hsl(299, 87%, 47%)", color: "red", padding: 20, borderRadius: 10 }}>
+        <div style={{ backgroundColor: "hsl(300, 63%, 8%)", color: "white", padding: 20, borderRadius: 10 }}>
           <h3>Queue Time</h3>
           <h2>{avgQueue} min</h2>
         </div>

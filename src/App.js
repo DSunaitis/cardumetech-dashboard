@@ -40,7 +40,7 @@ export default function App() {
           <XAxis dataKey="area" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="satisfaction" fill="#00C49F" />
+          <Bar dataKey="satisfaction" fill="# 00C49F" />
         </BarChart>
       </ResponsiveContainer>
     </div>

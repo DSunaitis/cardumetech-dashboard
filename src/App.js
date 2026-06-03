@@ -23,12 +23,12 @@ export default function App() {
 
       <div style={{ display: "flex", gap: 20, marginBottom: 30 }}>
         
-        <div style={{ backgroundColor: "# 1e293b", color: "white", padding: 20, borderRadius: 10 }}>
+        <div style={{ backgroundColor: "rgb(218, 16, 107)", color: "red", padding: 20, borderRadius: 10 }}>
           <h3>Satisfaction</h3>
           <h2>{avgSatisfaction}%</h2>
         </div>
 
-        <div style={{ backgroundColor: "# 1e293b", color: "white", padding: 20, borderRadius: 10 }}>
+        <div style={{ backgroundColor: "hsl(299, 87%, 47%)", color: "red", padding: 20, borderRadius: 10 }}>
           <h3>Queue Time</h3>
           <h2>{avgQueue} min</h2>
         </div>
@@ -40,7 +40,7 @@ export default function App() {
           <XAxis dataKey="area" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="satisfaction" fill="# 00C49F" />
+          <Bar dataKey="satisfaction" fill="#00C49F" />
         </BarChart>
       </ResponsiveContainer>
     </div>

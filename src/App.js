@@ -17,6 +17,9 @@ const avgQueue = (
 ).toFixed(1);
 
 export default function App() {
+      const eventScore = (
+      (avgSatisfaction * 0.6) + ((100 - avgQueue) * 0.4)
+      ).toFixed(1);
   return (
     <div style={{ padding: 30 }}>
       <h1>CardumeTech Dashboard</h1>
@@ -31,6 +34,11 @@ export default function App() {
         <div style={{ backgroundColor: "hsl(300, 63%, 8%)", color: "white", padding: 20, borderRadius: 10 }}>
           <h3>Queue Time</h3>
           <h2>{avgQueue} min</h2>
+        </div>
+
+        <div style={{ backgroundColor: "#0f172a", color: "white", padding: 20, borderRadius: 10 }}>
+          <h3>Event Score</h3>
+          <h2>{eventScore} / 10</h2>
         </div>
 
       </div>

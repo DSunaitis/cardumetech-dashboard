@@ -7,7 +7,6 @@ const data = [
   { area: "Bar", satisfaction: 80, queue: 12 }
 ];
 
-// KPI cálculos
 const avgSatisfaction = (data.reduce((a, b) => a + b.satisfaction, 0) / data.length).toFixed(1);
 const avgQueue = (data.reduce((a, b) => a + b.queue, 0) / data.length).toFixed(1);
 
@@ -16,22 +15,20 @@ export default function App() {
     <div style={{ padding: 30 }}>
       <h1>CardumeTech Dashboard</h1>
 
-      {/* KPIs */}
       <div style={{ display: "flex", gap: 20, marginBottom: 30 }}>
         
-        <div style={{ background: "#1e293b", color: "white", padding: 20, borderRadius: 10 }}>
+        <div style={{ background: "# 1e293b", color: "white", padding: 20, borderRadius: 10 }}>
           <h3>Satisfaction</h3>
           <h2>{avgSatisfaction}%</h2>
         </div>
 
-        <div style={{ background: "#1e293b", color: "white", padding: 20, borderRadius: 10 }}>
+        <div style={{ background: "# 1e293b", color: "white", padding: 20, borderRadius: 10 }}>
           <h3>Queue Time</h3>
           <h2>{avgQueue} min</h2>
         </div>
 
       </div>
 
-      {/* Gráfico */}
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
           <XAxis dataKey="area" />
@@ -43,4 +40,5 @@ export default function App() {
     </div>
   );
 }
+
 ``

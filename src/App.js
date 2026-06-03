@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
-function App() {
+const data = [
+  { area: "Entrance", satisfaction: 75 },
+  { area: "Food", satisfaction: 82 },
+  { area: "WC", satisfaction: 68 },
+  { area: "Bar", satisfaction: 80 }
+];
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: 30 }}>
+      <h1>CardumeTech Dashboard</h1>
+
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={data}>
+          <XAxis dataKey="area" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="satisfaction" fill="#00C49F" />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 }
 
-export default App;

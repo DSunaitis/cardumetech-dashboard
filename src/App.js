@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 const data = [
@@ -9,19 +10,44 @@ const data = [
 
 // cálculos seguros
 const avgSatisfaction = (
-  data.reduce((sum, item) => sum + Number(item.satisfaction || 0), 0) / data.length
+  filteredData.reduce((sum, item) => sum + Number(item.satisfaction), 0) / filteredData.length
 ).toFixed(1);
 
 const avgQueue = (
-  data.reduce((sum, item) => sum + Number(item.queue || 0), 0) / data.length
+  filteredData.reduce((sum, item) => sum + Number(item.queue), 0) / filteredData.length
 ).toFixed(1);
 
 export default function App() {
       const eventScore = (
       (avgSatisfaction * 0.6) + ((100 - avgQueue) * 0.4)
       ).toFixed(1);
-  return (
-    <div style={{ padding: 30 }}>
+      const [selectedArea, setSelectedArea] = useState("All");
+
+      const filteredData =
+      selectedArea === "All"
+      ? data
+      : data.filter(item => item.area === selectedArea);
+      return (
+      return (
+  <div style={{ padding: 30 }}>
+    <h1>CardumeTech Dashboard</h1>
+
+    {/* ✅ FILTRO AQUI */}
+    <select
+      value={selectedArea}
+      onChange={(e) => setSelectedArea(e.target.value)}
+      style={{ marginBottom: 20, padding: 8 }}
+    >
+      <option value="All">All Areas</option>
+      <option value="Entrance">Entrance</option>
+      <option value="Food">Food</option>
+      <option value="WC">WC</option>
+      <option value="Bar">Bar</option>
+    </select>
+
+    {/* KPIs */}
+    <div style={{ display: "flex", gap: 20, marginBottom: 30 }}>
+``    
       <h1>CardumeTech Dashboard</h1>
 
       <div style={{ display: "flex", gap: 20, marginBottom: 30 }}>
@@ -44,11 +70,12 @@ export default function App() {
       </div>
 
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data}>
+        <BarChart data={filteredData}>
+
           <XAxis dataKey="area" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="satisfaction" fill="#00C49F" />
+          <Bar dataKey="satisfaction" fill="hsl(256, 78%, 31%)" />
         </BarChart>
       </ResponsiveContainer>
     </div>

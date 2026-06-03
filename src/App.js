@@ -7,8 +7,14 @@ const data = [
   { area: "Bar", satisfaction: 80, queue: 12 }
 ];
 
-const avgSatisfaction = (data.reduce((a, b) => a + b.satisfaction, 0) / data.length).toFixed(1);
-const avgQueue = (data.reduce((a, b) => a + b.queue, 0) / data.length).toFixed(1);
+// cálculos seguros
+const avgSatisfaction = (
+  data.reduce((sum, item) => sum + Number(item.satisfaction || 0), 0) / data.length
+).toFixed(1);
+
+const avgQueue = (
+  data.reduce((sum, item) => sum + Number(item.queue || 0), 0) / data.length
+).toFixed(1);
 
 export default function App() {
   return (
@@ -17,12 +23,12 @@ export default function App() {
 
       <div style={{ display: "flex", gap: 20, marginBottom: 30 }}>
         
-        <div style={{ background: "# 1e293b", color: "white", padding: 20, borderRadius: 10 }}>
+        <div style={{ backgroundColor: "#1e293b", color: "white", padding: 20, borderRadius: 10 }}>
           <h3>Satisfaction</h3>
           <h2>{avgSatisfaction}%</h2>
         </div>
 
-        <div style={{ background: "# 1e293b", color: "white", padding: 20, borderRadius: 10 }}>
+        <div style={{ backgroundColor: "#1e293b", color: "white", padding: 20, borderRadius: 10 }}>
           <h3>Queue Time</h3>
           <h2>{avgQueue} min</h2>
         </div>
@@ -40,5 +46,3 @@ export default function App() {
     </div>
   );
 }
-
-``

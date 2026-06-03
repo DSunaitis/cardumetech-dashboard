@@ -36,7 +36,7 @@ export default function App() {
           <h2>{avgQueue} min</h2>
         </div>
 
-        <div style={{ backgroundColor: "#0f172a", color: "white", padding: 20, borderRadius: 10 }}>
+        <div style={{ backgroundColor: "hsl(300, 63%, 8%)", color: "white", padding: 20, borderRadius: 10 }}>
           <h3>Event Score</h3>
           <h2>{eventScore} / 10</h2>
         </div>

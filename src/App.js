@@ -18,7 +18,29 @@ export default function App() {
 
       {/* KPIs */}
       <div style={{ display: "flex", gap: 20, marginBottom: 30 }}>
+        
         <div style={{ background: "#1e293b", color: "white", padding: 20, borderRadius: 10 }}>
           <h3>Satisfaction</h3>
+          <h2>{avgSatisfaction}%</h2>
+        </div>
 
+        <div style={{ background: "#1e293b", color: "white", padding: 20, borderRadius: 10 }}>
+          <h3>Queue Time</h3>
+          <h2>{avgQueue} min</h2>
+        </div>
 
+      </div>
+
+      {/* Gráfico */}
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={data}>
+          <XAxis dataKey="area" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="satisfaction" fill="#00C49F" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+``

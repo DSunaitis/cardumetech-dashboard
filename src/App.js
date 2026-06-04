@@ -17,15 +17,13 @@ export default function App() {
       ? data
       : data.filter(item => item.area === selectedArea);
 
-  const avgSatisfaction = (
+  const avgSatisfaction =
     filteredData.reduce((sum, item) => sum + Number(item.satisfaction), 0) /
-    filteredData.length
-  );
+    filteredData.length;
 
-  const avgQueue = (
+  const avgQueue =
     filteredData.reduce((sum, item) => sum + Number(item.queue), 0) /
-    filteredData.length
-  );
+    filteredData.length;
 
   const eventScore = (
     (avgSatisfaction * 0.6) + ((100 - avgQueue) * 0.4)
@@ -33,15 +31,15 @@ export default function App() {
 
   const getColor = (value, type) => {
     if (type === "satisfaction") {
-      if (value >= 80) return "#43845a";
-      if (value >= 70) return "#ddad1d";
-      return "#ed3e3e";
+      if (value >= 80) return "#22c55e"; // verde
+      if (value >= 70) return "#eab308"; // amarelo
+      return "#ef4444"; // vermelho
     }
 
     if (type === "queue") {
-      if (value <= 10) return "#43845a";
-      if (value <= 20) return "#ddad1d";
-      return "#ed3e3e";
+      if (value <= 10) return "#22c55e";
+      if (value <= 20) return "#eab308";
+      return "#ef4444";
     }
 
     return "#1f2a3d";
@@ -49,9 +47,10 @@ export default function App() {
 
   return (
     <div style={{ padding: 30 }}>
+      
       <h1>CardumeTech Dashboard</h1>
 
-      {/* Filtro */}
+      {/* FILTRO */}
       <select
         value={selectedArea}
         onChange={(e) => setSelectedArea(e.target.value)}
@@ -88,7 +87,7 @@ export default function App() {
         </div>
 
         <div style={{
-          backgroundColor: "#435989",
+          backgroundColor: "#1f2a3d",
           color: "white",
           padding: 20,
           borderRadius: 10
@@ -97,29 +96,30 @@ export default function App() {
           <h2>{eventScore} / 10</h2>
         </div>
 
-      {/* Chart 1 */}
-<ResponsiveContainer width="100%" height={300}>
-  <BarChart data={filteredData}>
-    <XAxis dataKey="area" />
-    <YAxis />
-    <Tooltip />
-    <Bar dataKey="satisfaction" fill="#10b981" />
-  </BarChart>
-</ResponsiveContainer>
+      </div>
 
-{/* Chart 2 */}
-<h2 style={{ marginTop: 40 }}>Queue Time</h2>
+      {/* CHART 1 */}
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={filteredData}>
+          <XAxis dataKey="area" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="satisfaction" fill="#10b981" />
+        </BarChart>
+      </ResponsiveContainer>
 
-<ResponsiveContainer width="100%" height={300}>
-  <BarChart data={filteredData}>
-    <XAxis dataKey="area" />
-    <YAxis />
-    <Tooltip />
-    <Bar dataKey="queue" fill="#ef4444" />
-  </BarChart>
-</ResponsiveContainer>
+      {/* CHART 2 */}
+      <h2 style={{ marginTop: 40 }}>Queue Time by Area</h2>
 
-</div>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={filteredData}>
+          <XAxis dataKey="area" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="queue" fill="#ef4444" />
+        </BarChart>
+      </ResponsiveContainer>
+
+    </div>
   );
 }
-``

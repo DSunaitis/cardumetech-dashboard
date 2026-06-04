@@ -70,63 +70,63 @@ const handleLogin = async () => {
   }
 };
 
-  return (
-    <div style={{ padding: 30 }}>
-<button
-  onClick={handleLogin}
-  style={{
-    marginBottom: 20,
-    padding: 10,
-    backgroundColor: "#16a34a",
-    color: "white",
-    border: "none",
-    borderRadius: 5
-  }}
->
-  Login
-</button>
-      <h1>CardumeTech Dashboard</h1>
+ return (
+  <div style={{ padding: 30 }}>
 
-      <select
-        value={selectedArea}
-        onChange={(e) => setSelectedArea(e.target.value)}
-      >
-        <option value="All">All</option>
-        <option value="Entrance">Entrance</option>
-        <option value="Food">Food</option>
-        <option value="WC">WC</option>
-        <option value="Bar">Bar</option>
-      </select>
+    <button
+      onClick={handleLogin}
+      style={{
+        marginBottom: 20,
+        padding: 10,
+        backgroundColor: "#16a34a",
+        color: "white",
+        border: "none",
+        borderRadius: 5
+      }}
+    >
+      Login
+    </button>
 
-      <div style={{ display: "flex", gap: 20, marginTop: 20 }}>
+    <h1>CardumeTech Dashboard</h1>
 
-        <div style={{ background: "#22c55e", padding: 20, color: "white" }}>
-          <h3>Satisfaction</h3>
-          <h2>{avgSatisfaction.toFixed(1)}%</h2>
-        </div>
+    <select
+      value={selectedArea}
+      onChange={(e) => setSelectedArea(e.target.value)}
+    >
+      <option value="All">All</option>
+      <option value="Entrance">Entrance</option>
+      <option value="Food">Food</option>
+      <option value="WC">WC</option>
+      <option value="Bar">Bar</option>
+    </select>
 
-        <div style={{ background: "#eab308", padding: 20, color: "white" }}>
-          <h3>Queue</h3>
-          <h2>{avgQueue.toFixed(1)} min</h2>
-        </div>
+    <div style={{ display: "flex", gap: 20, marginTop: 20 }}>
 
-        <div style={{ background: "#1f2937", padding: 20, color: "white" }}>
-          <h3>Score</h3>
-          <h2>{eventScore}</h2>
-        </div>
-
+      <div style={{ background: "#22c55e", padding: 20, color: "white" }}>
+        <h3>Satisfaction</h3>
+        <h2>{avgSatisfaction.toFixed(1)}%</h2>
       </div>
 
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data}>
-          <XAxis dataKey="area" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="satisfaction" fill="#10b981" />
-        </BarChart>
-      </ResponsiveContainer>
+      <div style={{ background: "#eab308", padding: 20, color: "white" }}>
+        <h3>Queue</h3>
+        <h2>{avgQueue.toFixed(1)} min</h2>
+      </div>
+
+      <div style={{ background: "#1f2937", padding: 20, color: "white" }}>
+        <h3>Score</h3>
+        <h2>{eventScore}</h2>
+      </div>
 
     </div>
-  );
-}
-``
+
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart data={data}>
+        <XAxis dataKey="area" />
+        <YAxis />
+        <Tooltip />
+        <Bar dataKey="satisfaction" fill="#10b981" />
+      </BarChart>
+    </ResponsiveContainer>
+
+  </div>
+);

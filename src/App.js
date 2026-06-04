@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import PptxGenJS from "pptxgenjs";
+import PptxGenJS from "pptxgenjs/dist/pptxgen.es.js";
 
 const data = [
   { area: "Entrance", satisfaction: 75, queue: 35 },

@@ -43,7 +43,7 @@ export default function App() {
       return "#ef4444";
     }
 
-    return "#1f2a3d";
+    return "#1f2937";
   };
 
   const generateInsight = () => {
@@ -65,35 +65,99 @@ export default function App() {
       prev.satisfaction < curr.satisfaction ? prev : curr
     );
 
-    insights.push(`📍 Lowest satisfaction area: ${worstArea.area}`);
+    insights.push(
+      `📍 ${worstArea.area} has the lowest satisfaction (${worstArea.satisfaction}%)`
+    );
+
     return insights;
+  };
+
+  const generateRecommendations = () => {
+    let recs = [];
+
+    if (avgQueue > 20) {
+      recs.push("👉 Increase staff or service points.");
+    }
+
+    if (avgSatisfaction < 75) {
+      recs.push("👉 Improve key customer touchpoints.");
+    }
+
+    recs.push("👉 Optimize visitor flow and layout.");
+
+    return recs;
   };
 
   const exportToPPT = () => {
     let pptx = new PptxGenJS();
 
-    let slide = pptx.addSlide();
-
-    slide.addText("Event Report", { x: 1, y: 1, fontSize: 24 });
-
-    slide.addText(`Satisfaction: ${avgSatisfaction.toFixed(1)}%`, { x: 1, y: 2 });
-    slide.addText(`Queue: ${avgQueue.toFixed(1)} min`, { x: 1, y: 2.5 });
-
-    generateInsight().forEach((i, idx) => {
-      slide.addText(i, { x: 1, y: 3 + idx * 0.5 });
+    // SLIDE 1 — CAPA
+    let slide1 = pptx.addSlide();
+    slide1.background = { fill: "#0f172a" };
+    slide1.addText("CardumeTech Report", {
+      x: 1, y: 2, fontSize: 30, color: "FFFFFF", bold: true
     });
 
-    pptx.writeFile("Report.pptx");
+    // SLIDE 2 — KPIs
+    let slide2 = pptx.addSlide();
+    slide2.addText("Executive Summary", { x: 0.5, y: 0.5, fontSize: 24 });
+
+    slide2.addText(`Score: ${eventScore}`, { x: 0.5, y: 1.5 });
+    slide2.addText(`Satisfaction: ${avgSatisfaction.toFixed(1)}%`, { x: 0.5, y: 2 });
+    slide2.addText(`Queue: ${avgQueue.toFixed(1)} min`, { x: 0.5, y: 2.5 });
+
+    // SLIDE 3 — GRÁFICO
+    let slide3 = pptx.addSlide();
+    slide3.addText("Satisfaction by Area", { x: 0.5, y: 0.5 });
+
+    slide3.addChart(pptx.ChartType.bar, [
+      {
+        name: "Satisfaction",
+        labels: data.map(d => d.area),
+        values: data.map(d => d.satisfaction)
+      }
+    ], {
+      x: 1,
+      y: 1.5,
+      w: 8,
+      h: 4
+    });
+
+    // SLIDE 4 — INSIGHTS
+    let slide4 = pptx.addSlide();
+    slide4.addText("Insights", { x: 0.5, y: 0.5 });
+
+    generateInsight().forEach((i, idx) => {
+      slide4.addText(i, { x: 0.5, y: 1.5 + idx * 0.5 });
+    });
+
+    // SLIDE 5 — RECOMENDAÇÕES
+    let slide5 = pptx.addSlide();
+    slide5.addText("Recommendations", { x: 0.5, y: 0.5 });
+
+    generateRecommendations().forEach((r, idx) => {
+      slide5.addText(r, { x: 0.5, y: 1.5 + idx * 0.5 });
+    });
+
+    pptx.writeFile("CardumeTech_Report.pptx");
   };
 
   return (
-    <div style={{ padding: 30 }}>
+    <div style={{ padding: 30, fontFamily: "Arial" }}>
 
       <h1>CardumeTech Dashboard</h1>
 
       <button
         onClick={exportToPPT}
-        style={{ marginBottom: 20, padding: 8, background: "#2563eb", color: "white" }}
+        style={{
+          marginBottom: 20,
+          padding: 10,
+          backgroundColor: "#2563eb",
+          color: "white",
+          border: "none",
+          borderRadius: 5,
+          cursor: "pointer"
+        }}
       >
         Download PPT
       </button>
@@ -109,32 +173,50 @@ export default function App() {
         <option value="Bar">Bar</option>
       </select>
 
-      <div style={{ display: "flex", gap: 20 }}>
+      {/* KPIs */}
+      <div style={{ display: "flex", gap: 20, marginTop: 20 }}>
 
-        <div style={{ background: getColor(avgSatisfaction, "satisfaction"), padding: 20 }}>
+        <div style={{
+          background: getColor(avgSatisfaction, "satisfaction"),
+          padding: 20,
+          color: "white",
+          borderRadius: 8
+        }}>
           <h3>Satisfaction</h3>
           <h2>{avgSatisfaction.toFixed(1)}%</h2>
         </div>
 
-        <div style={{ background: getColor(avgQueue, "queue"), padding: 20 }}>
+        <div style={{
+          background: getColor(avgQueue, "queue"),
+          padding: 20,
+          color: "white",
+          borderRadius: 8
+        }}>
           <h3>Queue</h3>
           <h2>{avgQueue.toFixed(1)} min</h2>
         </div>
 
-        <div style={{ background: "#1f2a3d", padding: 20 }}>
+        <div style={{
+          background: "#1f2937",
+          padding: 20,
+          color: "white",
+          borderRadius: 8
+        }}>
           <h3>Score</h3>
           <h2>{eventScore}</h2>
         </div>
 
       </div>
 
-      <h2>Insights</h2>
+      {/* INSIGHTS */}
+      <h2 style={{ marginTop: 30 }}>Insights</h2>
       <ul>
         {generateInsight().map((i, idx) => <li key={idx}>{i}</li>)}
       </ul>
 
+      {/* CHART */}
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={filteredData}>
+        <BarChart data={data}>
           <XAxis dataKey="area" />
           <YAxis />
           <Tooltip />

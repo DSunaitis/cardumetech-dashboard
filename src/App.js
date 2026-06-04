@@ -33,18 +33,18 @@ export default function App() {
 
   const getColor = (value, type) => {
     if (type === "satisfaction") {
-      if (value >= 80) return "hsl(141, 33%, 39%)";
-      if (value >= 70) return "rgb(221, 173, 29)";
-      return "rgb(237, 62, 62)";
+      if (value >= 80) return "#43845a";
+      if (value >= 70) return "#ddad1d";
+      return "#ed3e3e";
     }
 
     if (type === "queue") {
-      if (value <= 10) return "hsl(141, 33%, 39%)";
-      if (value <= 20) return "rgb(221, 173, 29)";
-      return "rgb(237, 62, 62)";
+      if (value <= 10) return "#43845a";
+      if (value <= 20) return "#ddad1d";
+      return "#ed3e3e";
     }
 
-    return "hsl(217, 33%, 18%)";
+    return "#1f2a3d";
   };
 
   return (
@@ -88,7 +88,7 @@ export default function App() {
         </div>
 
         <div style={{
-          backgroundColor: "hsl(221, 34%, 40%)",
+          backgroundColor: "#435989",
           color: "white",
           padding: 20,
           borderRadius: 10
@@ -99,29 +99,29 @@ export default function App() {
 
       </div>
 
-      {/* Chart 1 */}
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={filteredData}>
-          <XAxis dataKey="area" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="satisfaction" fill="hsl(168, 70%, 40%)" />
-        </BarChart>
-      </ResponsiveContainer>
+    {/* Chart 1 */}
+<ResponsiveContainer width="100%" height={300}>
+  <BarChart data={filteredData}>
+    <XAxis dataKey="area" />
+    <YAxis />
+    <Tooltip />
+    <Bar dataKey="satisfaction" fill="#10b981" />
+  </BarChart>
+</ResponsiveContainer>
 
-      {/* Chart 2 */}
-      <h2 style={{ marginTop: 40 }}>Queue Time</h2>
+{/* Chart 2 */}
+<h2 style={{ marginTop: 40 }}>Queue Time</h2>
 
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={filteredData}>
-          <XAxis dataKey="area" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="queue" fill="rgb(237, 62, 62)" />
-        </BarChart>
-      </ResponsiveContainer>
+<ResponsiveContainer width="100%" height={300}>
+  <BarChart data={filteredData}>
+    <XAxis dataKey="area" />
+    <YAxis />
+    <Tooltip />
+    <Bar dataKey="queue" fill="#ef4444" />
+  </BarChart>
+</ResponsiveContainer>
 
-    </div>
+</div>
   );
 }
 ``

@@ -46,20 +46,19 @@ export default function App() {
     return "#1f2a3d";
   };
 
-  // ✅ INSIGHTS
   const generateInsight = () => {
     let insights = [];
 
     if (avgSatisfaction < 75) {
-      insights.push("⚠️ Overall satisfaction is below expected levels.");
+      insights.push("⚠️ Satisfaction is below expected levels.");
     } else {
-      insights.push("✅ Satisfaction levels are positive.");
+      insights.push("✅ Satisfaction is strong.");
     }
 
     if (avgQueue > 20) {
-      insights.push("⚠️ Queue times are high and impacting experience.");
+      insights.push("⚠️ High queue time detected.");
     } else {
-      insights.push("✅ Queue times are within acceptable range.");
+      insights.push("✅ Queue time is acceptable.");
     }
 
     const worstArea = filteredData.reduce((prev, curr) =>
@@ -67,49 +66,21 @@ export default function App() {
     );
 
     insights.push(`📍 Lowest satisfaction area: ${worstArea.area}`);
-
     return insights;
   };
 
-  // ✅ RECOMENDAÇÕES
-  const generateRecommendations = () => {
-    let recs = [];
-
-    if (avgQueue > 20) {
-      recs.push("👉 Increase staff or service points.");
-    }
-
-    if (avgSatisfaction < 75) {
-      recs.push("👉 Improve key touchpoints.");
-    }
-
-    recs.push("👉 Optimize visitor flow.");
-
-    return recs;
-  };
-
-  // ✅ EXPORT PPT
   const exportToPPT = () => {
     let pptx = new PptxGenJS();
 
-    let slide1 = pptx.addSlide();
-    slide1.addText("Event Report", { x: 1, y: 1, fontSize: 24 });
-    slide1.addText("CardumeTech", { x: 1, y: 2 });
+    let slide = pptx.addSlide();
 
-    let slide2 = pptx.addSlide();
-    slide2.addText(`Satisfaction: ${avgSatisfaction.toFixed(1)}%`, { x: 1, y: 1 });
-    slide2.addText(`Queue: ${avgQueue.toFixed(1)} min`, { x: 1, y: 1.5 });
+    slide.addText("Event Report", { x: 1, y: 1, fontSize: 24 });
 
-    let slide3 = pptx.addSlide();
-    slide3.addText("Insights", { x: 1, y: 0.5 });
+    slide.addText(`Satisfaction: ${avgSatisfaction.toFixed(1)}%`, { x: 1, y: 2 });
+    slide.addText(`Queue: ${avgQueue.toFixed(1)} min`, { x: 1, y: 2.5 });
+
     generateInsight().forEach((i, idx) => {
-      slide3.addText(i, { x: 1, y: 1 + idx * 0.5 });
-    });
-
-    let slide4 = pptx.addSlide();
-    slide4.addText("Recommendations", { x: 1, y: 0.5 });
-    generateRecommendations().forEach((r, idx) => {
-      slide4.addText(r, { x: 1, y: 1 + idx * 0.5 });
+      slide.addText(i, { x: 1, y: 3 + idx * 0.5 });
     });
 
     pptx.writeFile("Report.pptx");
@@ -120,13 +91,13 @@ export default function App() {
 
       <h1>CardumeTech Dashboard</h1>
 
-      {/* BOTÃO PPT */}
-      <button onClick={exportToPPT}
-        style={{ marginBottom: 20, padding: 8, background: "#2563eb", color: "white" }}>
+      <button
+        onClick={exportToPPT}
+        style={{ marginBottom: 20, padding: 8, background: "#2563eb", color: "white" }}
+      >
         Download PPT
       </button>
 
-      {/* FILTER */}
       <select
         value={selectedArea}
         onChange={(e) => setSelectedArea(e.target.value)}
@@ -138,7 +109,6 @@ export default function App() {
         <option value="Bar">Bar</option>
       </select>
 
-      {/* KPIs */}
       <div style={{ display: "flex", gap: 20 }}>
 
         <div style={{ background: getColor(avgSatisfaction, "satisfaction"), padding: 20 }}>
@@ -158,13 +128,11 @@ export default function App() {
 
       </div>
 
-      {/* INSIGHTS */}
       <h2>Insights</h2>
       <ul>
         {generateInsight().map((i, idx) => <li key={idx}>{i}</li>)}
       </ul>
 
-      {/* CHART */}
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={filteredData}>
           <XAxis dataKey="area" />
@@ -177,4 +145,3 @@ export default function App() {
     </div>
   );
 }
-``

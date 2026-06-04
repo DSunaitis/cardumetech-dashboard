@@ -97,9 +97,7 @@ export default function App() {
           <h2>{eventScore} / 10</h2>
         </div>
 
-      </div>
-
-    {/* Chart 1 */}
+      {/* Chart 1 */}
 <ResponsiveContainer width="100%" height={300}>
   <BarChart data={filteredData}>
     <XAxis dataKey="area" />

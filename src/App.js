@@ -31,9 +31,9 @@ export default function App() {
 
   const getColor = (value, type) => {
     if (type === "satisfaction") {
-      if (value >= 80) return "#22c55e"; // verde
-      if (value >= 70) return "#eab308"; // amarelo
-      return "#ef4444"; // vermelho
+      if (value >= 80) return "#22c55e";
+      if (value >= 70) return "#eab308";
+      return "#ef4444";
     }
 
     if (type === "queue") {
@@ -45,12 +45,54 @@ export default function App() {
     return "#1f2a3d";
   };
 
+  // ✅ INSIGHTS
+  const generateInsight = () => {
+    let insights = [];
+
+    if (avgSatisfaction < 75) {
+      insights.push("⚠️ Overall satisfaction is below expected levels.");
+    } else {
+      insights.push("✅ Satisfaction levels are positive.");
+    }
+
+    if (avgQueue > 20) {
+      insights.push("⚠️ Queue times are high and impacting experience.");
+    } else {
+      insights.push("✅ Queue times are within acceptable range.");
+    }
+
+    const worstArea = filteredData.reduce((prev, curr) =>
+      prev.satisfaction < curr.satisfaction ? prev : curr
+    );
+
+    insights.push(`📍 Lowest satisfaction area: ${worstArea.area}`);
+
+    return insights;
+  };
+
+  // ✅ RECOMENDAÇÕES
+  const generateRecommendations = () => {
+    let recs = [];
+
+    if (avgQueue > 20) {
+      recs.push("👉 Increase staff or service points to reduce queues.");
+    }
+
+    if (avgSatisfaction < 75) {
+      recs.push("👉 Improve key touchpoints such as entry and facilities.");
+    }
+
+    recs.push("👉 Optimize layout and visitor flow.");
+
+    return recs;
+  };
+
   return (
     <div style={{ padding: 30 }}>
-      
+
       <h1>CardumeTech Dashboard</h1>
 
-      {/* FILTRO */}
+      {/* FILTER */}
       <select
         value={selectedArea}
         onChange={(e) => setSelectedArea(e.target.value)}
@@ -98,6 +140,22 @@ export default function App() {
 
       </div>
 
+      {/* INSIGHTS */}
+      <h2>Insights</h2>
+      <ul>
+        {generateInsight().map((i, idx) => (
+          <li key={idx}>{i}</li>
+        ))}
+      </ul>
+
+      {/* RECOMMENDATIONS */}
+      <h2>Recommendations</h2>
+      <ul>
+        {generateRecommendations().map((r, idx) => (
+          <li key={idx}>{r}</li>
+        ))}
+      </ul>
+
       {/* CHART 1 */}
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={filteredData}>
@@ -109,7 +167,7 @@ export default function App() {
       </ResponsiveContainer>
 
       {/* CHART 2 */}
-      <h2 style={{ marginTop: 40 }}>Queue Time by Area</h2>
+      <h2 style={{ marginTop: 40 }}>Queue Time</h2>
 
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={filteredData}>

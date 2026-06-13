@@ -1,19 +1,29 @@
 import { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer
+} from "recharts";
 
 export default function App() {
-
   const [data, setData] = useState([]);
   const [user, setUser] = useState(null);
   const [selectedArea, setSelectedArea] = useState("All");
 
+  // ✅ obter utilizador
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
       setUser(data.user);
-    });
+    };
+    getUser();
   }, []);
 
+  // ✅ buscar dados
   const fetchData = async () => {
     if (!user) return;
 
@@ -22,7 +32,9 @@ export default function App() {
       .select("*")
       .eq("client_id", user.email);
 
-    if (!error && data) {
+    if (error) {
+      console.log("Erro:", error);
+    } else {
       setData(data);
     }
   };
@@ -31,25 +43,30 @@ export default function App() {
     if (user) fetchData();
   }, [user]);
 
+  // ✅ filtros
   const filteredData =
     selectedArea === "All"
       ? data
-      : data.filter(item => item.area === selectedArea);
+      : data.filter((item) => item.area === selectedArea);
 
+  // ✅ métricas
   const avgSatisfaction =
     filteredData.length > 0
-      ? filteredData.reduce((sum, item) => sum + item.satisfaction, 0) / filteredData.length
+      ? filteredData.reduce((sum, item) => sum + item.satisfaction, 0) /
+        filteredData.length
       : 0;
 
   const avgQueue =
     filteredData.length > 0
-      ? filteredData.reduce((sum, item) => sum + item.queue, 0) / filteredData.length
+      ? filteredData.reduce((sum, item) => sum + item.queue, 0) /
+        filteredData.length
       : 0;
 
   const eventScore = (
-    (avgSatisfaction * 0.6) + ((100 - avgQueue) * 0.4)
+    avgSatisfaction * 0.6 + (100 - avgQueue) * 0.4
   ).toFixed(1);
 
+  // ✅ login
   const handleLogin = async () => {
     const email = prompt("Enter your email:");
     if (!email) return;
@@ -65,7 +82,6 @@ export default function App() {
 
   return (
     <div style={{ padding: 30 }}>
-
       <button
         onClick={handleLogin}
         style={{
@@ -74,7 +90,8 @@ export default function App() {
           backgroundColor: "#16a34a",
           color: "white",
           border: "none",
-          borderRadius: 5
+          borderRadius: 5,
+          cursor: "pointer"
         }}
       >
         Login
@@ -94,22 +111,41 @@ export default function App() {
       </select>
 
       <div style={{ display: "flex", gap: 20, marginTop: 20 }}>
-
-        <div style={{ background: "#22c55e", padding: 20, color: "white" }}>
+        <div
+          style={{
+            background: "#22c55e",
+            padding: 20,
+            color: "white",
+            borderRadius: 8
+          }}
+        >
           <h3>Satisfaction</h3>
           <h2>{avgSatisfaction.toFixed(1)}%</h2>
         </div>
 
-        <div style={{ background: "#eab308", padding: 20, color: "white" }}>
+        <div
+          style={{
+            background: "#eab308",
+            padding: 20,
+            color: "white",
+            borderRadius: 8
+          }}
+        >
           <h3>Queue</h3>
           <h2>{avgQueue.toFixed(1)} min</h2>
         </div>
 
-        <div style={{ background: "#1f2937", padding: 20, color: "white" }}>
+        <div
+          style={{
+            background: "#1f2937",
+            padding: 20,
+            color: "white",
+            borderRadius: 8
+          }}
+        >
           <h3>Score</h3>
           <h2>{eventScore}</h2>
         </div>
-
       </div>
 
       <ResponsiveContainer width="100%" height={300}>
@@ -120,7 +156,6 @@ export default function App() {
           <Bar dataKey="satisfaction" fill="#10b981" />
         </BarChart>
       </ResponsiveContainer>
-
     </div>
   );
 }

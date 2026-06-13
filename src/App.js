@@ -8,14 +8,12 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [selectedArea, setSelectedArea] = useState("All");
 
-  // ✅ obter user
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       setUser(data.user);
     });
   }, []);
 
-  // ✅ buscar dados
   const fetchData = async () => {
     if (!user) return;
 
@@ -33,13 +31,11 @@ export default function App() {
     if (user) fetchData();
   }, [user]);
 
-  // ✅ filtros
   const filteredData =
     selectedArea === "All"
       ? data
       : data.filter(item => item.area === selectedArea);
 
-  // ✅ cálculos
   const avgSatisfaction =
     filteredData.length > 0
       ? filteredData.reduce((sum, item) => sum + item.satisfaction, 0) / filteredData.length
@@ -54,7 +50,6 @@ export default function App() {
     (avgSatisfaction * 0.6) + ((100 - avgQueue) * 0.4)
   ).toFixed(1);
 
-  // ✅ login
   const handleLogin = async () => {
     const email = prompt("Enter your email:");
     if (!email) return;
